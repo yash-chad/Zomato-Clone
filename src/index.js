@@ -50,6 +50,7 @@ app.use("/",userRoutes)
 io.on("connection",async(socket)=>{
 
     var owner_id
+    var owner_name
     console.log("New socket connection")
 
     socket.on("join", ({name , _id})=>{
@@ -59,6 +60,7 @@ io.on("connection",async(socket)=>{
         socket.join(owner_id)
 
         console.log(owner_id)
+        console.log(owner_name)
 
          //Get all messages in db
         Message.find({owner : owner_id })
@@ -82,20 +84,20 @@ io.on("connection",async(socket)=>{
     //Handling inputs
     socket.on("input",(data)=>{
 
-        const name = data.name
+        const name = owner_name
         const message = data.message
 
          // Check for name and message
-        if(name == '' || message == '')
+        if( message == '')
         {
-            sendStatus('Please enter a name and message');
+            sendStatus('Please enter a message');
         } 
         else {
             // Insert message
             const mymessage = new Message({
                 _id : mongoose.Types.ObjectId(),
                 message : data.message,
-                name : data.name,
+                name : owner_name,
                 owner : owner_id
 
             })

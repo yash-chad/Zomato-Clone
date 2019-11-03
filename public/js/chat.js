@@ -1,19 +1,15 @@
 const socket = io()
-
 const status = document.getElementById('status')
 const messages = document.getElementById('messages')
 const textarea = document.getElementById('textarea')
-const username = document.getElementById('username')
-
 const formSubmit = document.getElementById('form_submit')
 
 //Options --This is the qs library whose link we've included in the html file
 //location.search is a browser side tool which gives us the querystring
 //eg : ?username=yashchachad1&room=myroom
 //Qs.parse returns all the query parameters as object
-
-
 const {name , _id } = Qs.parse(location.search, {ignoreQueryPrefix : true })
+console.log(name)
 console.log(location.search)
 
 
@@ -55,7 +51,7 @@ socket.on('status',(data)=>{
 formSubmit.addEventListener('submit', (e)=>{
     e.preventDefault()
     socket.emit('input', {
-        name:username.value,
+        name:name,
         message:textarea.value
     })
     textarea.value = ""

@@ -82,7 +82,8 @@ router.post("/user/login",(req,res)=>{
                     res.status(200).send({
                         message : "Access Granted" , 
                         token : token,
-                        link : `http://localhost:3000?_id=${user[0]._id}&name=${user[0].name}`
+                        link : `http://localhost:3000?_id=${user[0]._id}&name=${user[0].name}`,
+                        helper_link : `http://localhost:3000?_id=${user[0]._id}&name=Service-chat`
                     })
                 }
 
