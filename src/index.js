@@ -53,15 +53,12 @@ io.on("connection",async(socket)=>{
     var owner_name
     console.log("New socket connection")
 
-    socket.on("join", ({name , _id})=>{
+    socket.on("create", ({name , _id})=>{
 
         owner_name = name
         owner_id = _id
         socket.join(owner_id)
-
-        console.log(owner_id)
-        console.log(owner_name)
-
+  
          //Get all messages in db
         Message.find({owner : owner_id })
         .limit(10)
@@ -79,12 +76,10 @@ io.on("connection",async(socket)=>{
         socket.to(owner_id).emit('status', s)
     }
     
-
-    
+ 
     //Handling inputs
     socket.on("input",(data)=>{
 
-        const name = owner_name
         const message = data.message
 
          // Check for name and message
@@ -104,7 +99,7 @@ io.on("connection",async(socket)=>{
 
             mymessage.save()
             .then(()=>{
-                io.emit("output",[data])
+                io.to(owner_id).emit("output",[data])
                 sendStatus({
                     message: 'Message sent',
                     clear: true
@@ -114,8 +109,6 @@ io.on("connection",async(socket)=>{
 
     })
 })
-
-
 
 
 app.use("*",(req,res,next)=>{

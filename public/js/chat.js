@@ -9,11 +9,10 @@ const formSubmit = document.getElementById('form_submit')
 //eg : ?username=yashchachad1&room=myroom
 //Qs.parse returns all the query parameters as object
 const {name , _id } = Qs.parse(location.search, {ignoreQueryPrefix : true })
-console.log(name)
-console.log(location.search)
+//console.log(location.search)
 
 
-socket.emit("join", { name ,_id})
+socket.emit("create", { name ,_id})
 
 const setStatus = (s)=>{
      // Set status
